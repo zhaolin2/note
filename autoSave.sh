@@ -2,4 +2,4 @@
 cd D:\note
 git add .
 git commit -m "zl auto save"
-git push -u note master
+git push -u origin master
