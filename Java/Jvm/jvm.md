@@ -265,3 +265,60 @@ Constant pool:
 -XX:NewSize=n　　//设置年轻代大小为“n” 
 ```
 
+# 初始化问题
+
+属于被动引用不会出发子类初始化 
+
+ 1.子类引用父类的静态字段，只会触发子类的加载、父类的初始化，不会导致子类初始化 
+
+ 2.通过数组定义来引用类，不会触发此类的初始化 
+
+ 3.常量在编译阶段会进行常量优化，将常量存入调用类的常量池中， 本质上并没有直接引用到定义常量的类，因此不会触发定义常量的类的初始化。 
+
+
+
+虚拟机规范严格规定了有且只有五种情况必须立即对类进行“初始化”：
+
+1. 使用new关键字实例化对象的时候、读取或设置一个类的静态字段的时候，已经调用一个类的静态方法的时候。
+
+2. 使用java.lang.reflect包的方法对类进行反射调用的时候，如果类没有初始化，则需要先触发其初始化。
+
+3. 当初始化一个类的时候，如果发现其父类没有被初始化就会先初始化它的父类。
+
+4. 当虚拟机启动的时候，用户需要指定一个要执行的主类（就是包含main()方法的那个类），虚拟机会先初始化这个类；
+
+5. 使用Jdk1.7动态语言支持的时候的一些情况。
+
+ 
+
+除了这五种之外，其他的所有引用类的方式都不会触发初始化，称为被动引用。下面是被动引用的三个例子：
+
+1. 通过子类引用父类的的静态字段，不会导致子类初始化。
+
+2. 通过数组定义来引用类，不会触发此类的初始化。
+
+3. 常量在编译阶段会存入调用类的常量池中，本质上没有直接引用到定义常量的类，因此不会触发定义常量的类的初始化。
+
+public class ConstClass { 
+
+  static { 
+
+​    System.out.println("ConstClass init!"); 
+
+  } 
+
+  public static final int value = 123; 
+
+} 
+
+public class NotInitialization{ 
+
+  public static void main(String[] args) { 
+
+​    int x = ConstClass.value; 
+
+  } 
+
+} 
+
+上述代码运行之后，也没有输出“ConstClass init！”，这是因为虽然在Java源码中引用了ConstClass类中的常量HELLOWORLD，但其实在编译阶段通过常量传播优化，已经将此常量的值“hello world”存储到了NotInitialization类的常量池中，以后NotInitialization对常量ConstClass.HELLOWORLD的引用实际都被转化为NotInitialization类对自身常量池的引用了。也就是说，实际上NotInitialization的Class文件之中并没有ConstClass类的符号引用入口，这两个类在编译成Class之后就不存在任何联系了。
