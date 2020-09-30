@@ -90,16 +90,26 @@ String本身为final，使用char[] 来保存
 
 # 关键字
 
-- 
+- transient
+- instanceof
+- volatile
+- synchronized
+- final
+- static
+- const 预留关键字 后期拓展用
 
 # static
 
+java中静态的引入是为了使用和运行的便捷，不需要再进行实例化，比如工具类这些，可以直接使用
+
 - 静态类
-  - 嵌套内部类
+  - 嵌套内部类 静态类不能用于嵌套的顶层
 - 静态变量
   - 静态变量属于类，不属于类的实例 通常使用final来修饰
 - 静态方法
+  - 静态方法通常用于给其他类使用而不需要创建实例
 - 静态代码快
+  - 静态代码块是类转载的时候由ClassLoader来执行   一般用来初始化类的静态变量或者加载资源
 
 # 基本操作符
 
@@ -300,3 +310,52 @@ Throwable
     		OutOfMemoryError
 IOError
 
+# 枚举
+
+枚举在Java SE5中提供的新的类型，具体实现使用Javap查看的话
+
+## 枚举的实现
+
+```java
+public enum t {
+    SPRING,SUMMER;
+}
+
+public final class T extends Enum
+{
+    private T(String s, int i)
+    {
+        super(s, i);
+    }
+    public static T[] values()
+    {
+        T at[];
+        int i;
+        T at1[];
+        System.arraycopy(at = ENUM$VALUES, 0, at1 = new T[i = at.length], 0, i);
+        return at1;
+    }
+
+    public static T valueOf(String s)
+    {
+        return (T)Enum.valueOf(demo/T, s);
+    }
+
+    public static final T SPRING;
+    public static final T SUMMER;
+    private static final T ENUM$VALUES[];
+    static
+    {
+        SPRING = new T("SPRING", 0);
+        SUMMER = new T("SUMMER", 1);
+        ENUM$VALUES = (new T[] {
+            SPRING, SUMMER
+        });
+    }
+}
+
+```
+
+## Enum类
+
+ java.lang.Enum 是一个抽象类，日常开发使用不到，仅仅在enmu的时候，创建一个final class来继承Enum类
