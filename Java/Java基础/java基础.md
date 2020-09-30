@@ -58,6 +58,49 @@ String本身为final，使用char[] 来保存
 - StringBuilder
 - StringBuffer 线程安全
 
+## String Pool
+
+ 字符串常量池（String Pool）保存着所有字符串字面量（literal strings），这些字面量在编译时期就确定。 
+
+- 代码中出现双引号形式(字面量)创建字符串对象的时候，会检查字符串常量池中是否存在当前相同内容的字符串
+- 7以前放在永久代中，8以后放在元空间中
+
+## String 方法
+
+- subString
+  - 1.6 源字符串和切割之后的字符串公用同一个char[]  只是offset和count不同
+  - 1.7 会生成一个新的字符串来存储子串
+- replace 
+  -  replace(ChrarSequence target, CharSequence replacement) ，用replacement替换所有的target，两个参数都是字符串 
+
+- replaceAll  
+  -  replaceAll(String regex, String replacement) ，用replacement替换所有的regex匹配项，regex很明显是个正则表达式，replacement是字符串。 
+- replaceFirst
+  -  replaceFirst(String regex, String replacement) ，基本和replaceAll相同，区别是只替换第一个匹配项 
+
+## String长度限制
+
+- String的构造函数是支持传入Int_MAX的
+
+- 字面量是有最大值的，最大值为 2^16 - 1 = 65535 
+
+- 字符串有长度限制，在编译期，要求字符串常量池中的常量不能超过65535，并且在javac执行过程中控制了最大值为65534。
+
+  在运行期，长度不能超过Int的范围，否则会抛异常。
+
+# 关键字
+
+- 
+
+# static
+
+- 静态类
+  - 嵌套内部类
+- 静态变量
+  - 静态变量属于类，不属于类的实例 通常使用final来修饰
+- 静态方法
+- 静态代码快
+
 # 基本操作符
 
 操作符优先级
