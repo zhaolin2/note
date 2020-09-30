@@ -1,5 +1,13 @@
 # Queue
 
+队列一般可以分为以下几种，其中有些可以搭配来形成不同的队列
+
+- Dqueue 双端队列
+- BlockingQueue 阻塞队列
+- BlockingDqueue
+- TransferQueue 使命必达接口 
+- PriorityQueue 优先队列
+
 ## ArrayDeque
 
 - 环形队列(循环数组)
