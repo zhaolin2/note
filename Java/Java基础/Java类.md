@@ -2,7 +2,7 @@
 
 所有的java对象都默认的继承了Object对象，所以所有java对象都含有Object的方法
 
-# 方法
+## 方法
 
 ##  registerNatives 
 
@@ -135,3 +135,4 @@ ThreadB: 4
 ##  **finalize** 
 
 gc的时候启动，在被回收的时候调用，只会被调用一次
+

@@ -359,3 +359,114 @@ public final class T extends Enum
 ## Enum类
 
  java.lang.Enum 是一个抽象类，日常开发使用不到，仅仅在enmu的时候，创建一个final class来继承Enum类
+
+# 反射
+
+​		Java反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有**属性**和**方法**；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为Java语言的反射机制。
+
+
+
+Class类主要API：
+        成员变量  - Field
+        成员方法  - Constructor
+        构造方法  - Method
+
+
+
+## 获取类对象有3种方式
+
+- Class.forName（）（常用）  Class类中的静态方法：public static Class ForName(String className)
+
+- Hero.class  数据类型的静态属性class
+
+- new Hero().getClass()  Object类的getClass()方法
+
+## 获取成员变量并使用
+
+- 1: 获取Class对象
+- 2：通过Class对象获取Constructor对象
+- 3：Object obj = Constructor.newInstance()创建对象
+- 4：Field field = Class.getField("指定变量名")获取单个成员变量对象
+- 5：field.set(obj,"") 为obj对象的field字段赋值
+
+
+
+**如果需要访问私有或者默认修饰的成员变量**
+
+- 1:Class.getDeclaredField()获取该成员变量对象
+- 2:setAccessible() 暴力访问 
+
+
+
+## 通过反射调用成员方法
+
+- 1：获取Class对象
+- 2：通过Class对象获取Constructor对象
+- 3：Constructor.newInstance()创建对象
+- 4：通过Class对象获取Method对象  ------getMethod("方法名");
+- 5: Method对象调用invoke方法实现功能
+
+
+
+**如果调用的是私有方法那么需要暴力访问**
+
+- 1: getDeclaredMethod()
+- 2: setAccessiable();   
+
+## jdbc
+
+原来写法：
+
+```java
+Class.forName("com.mysql.jdbc.Driver");
+
+//获取与数据库连接的对象-Connetcion
+connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/java3y", "root", "root");
+
+//获取执行sql语句的statement对象
+statement = connection.createStatement();
+
+//执行sql语句,拿到结果集
+resultSet = statement.executeQuery("SELECT * FROM users");
+```
+
+配置文件+反射
+
+```java
+//获取配置文件的读入流
+InputStream inputStream = UtilsDemo.class.getClassLoader().getResourceAsStream("db.properties");
+
+Properties properties = new Properties();
+properties.load(inputStream);
+
+//获取配置文件的信息
+driver = properties.getProperty("driver");
+url = properties.getProperty("url");
+username = properties.getProperty("username");
+password = properties.getProperty("password");
+
+//加载驱动类
+Class.forName(driver);
+```
+
+# 引用
+
+## 强引用
+
+可以直接访问目标对象
+
+## 软引用
+
+ SoftReference 保存一个对象的软引用 他并不影响垃圾回收
+
+比如持有一个obj，当整个应用中**除了SoftReference之外**，没有其他地方含有这个对象的引用，可以直接**垃圾回收**
+
+## 弱引用
+
+弱引用，只要gc，就会回收
+
+## 虚引用
+
+随时可能被回收
+
+虚引用必须跟引用队列一起使用，作用在于追踪垃圾
