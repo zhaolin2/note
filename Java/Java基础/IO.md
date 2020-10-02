@@ -1,5 +1,11 @@
 # IO
 
+Bit是最小的二进制单位，计算的操作部分，为0或者1；
+
+Byte是计算机操作数据的最小单位，8bit组成 -128-127
+
+char是用户所读写的最小单位，在java中由16位bit组成
+
 ## IO分类
 
 具体使用见JavaSEDemo中的io包
@@ -36,6 +42,10 @@
 
 ```text
 注意：这里的出和入，都是相对于系统内存而言的。
+Input用于读
+Output用于写
+OutputStreamWriter  字符流->字节流
+InputStreamReader 字节流->字符流
 ```
 
 - **节点流和处理流：**
