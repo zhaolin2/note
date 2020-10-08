@@ -98,3 +98,11 @@ javap主要用来查看编译之后的class文件的结构
 -constants 输出静态final常量
 ```
 
+# 查看gc
+
+jmap -heap 6683 | head -n50
+
+jmap -histo 6683 | head -n20
+
+jmap -dump:format=b,file=heap 6683
+

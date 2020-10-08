@@ -38,3 +38,66 @@
   -  用户的浏览器和服务器在建立连接后，服务器主动将一些资源推送给浏览器并缓存起来的机制
 
  ![img](https://mmbiz.qpic.cn/mmbiz_png/6fuT3emWI5JoqN8DvPFLUkbVYEWaxoLedztM8v2mibWpsZ97ptE393S62XjyWE3MLy1MLyDy19Ek8l1QT5un23w/640?tp=webp&wxfrom=5&wx_lazy=1&wx_co=1) 
+
+# Patch和Put
+
+Put一般用来进行整体的更新，Put一个完整的对象来进行更新
+
+Patch一般用来进行部分字段的更新，比如我只需要更新其中两个字段，那么可以使用Patch来进行局部的更新
+
+## POST和PUT
+
+- POST一般用来创建或者更新资源
+- Put一般只拿来更新资源
+
+# 跨域
+
+## JSONP
+
+jsonp是通过动态的插入一个script的标签，由于浏览器对script的资源引用没有限制，并且还会立刻执行。
+
+同时前后端还会约定一个callback来约定处理返回数据的函数名称。
+
+- 无法发送**POST**请求
+- 确定失败与否并不容易，大部分框架结合超时来进行判定
+
+## 代理
+
+使用代理服务器来进行资源的请求
+
+这种方式首先将请求发送给后台服务器，通过服务器来发送请求，然后将请求的结果传递给前端。 
+
+在**https**的请求下，只能使用**代理**来进行请求
+
+## CORS
+
+使用XMLHttpRequest发送请求的时候，发现请求不符合同源策略(域名和端口号相同)，会添加请求头:Origin,后台在接受处理之后，需要在返回的结果中加入 Access-Control-Allow-Origin ,浏览器会判断对应的头中是否包含Origin的值，有的话，我们就可以拿到响应的值，不包含的话，无法拿到。
+
+```java
+ if (req.headers.origin) {
+ 
+             res.writeHead(200, {
+                 "Content-Type": "text/html; charset=UTF-8",
+                 "Access-Control-Allow-Origin":'http://localhost'/*,
+                 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+                 'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type'*/
+             });
+             res.write('cors');
+            res.end();
+}
+
+```
+
+### OPTIONS
+
+一般用来检测服务器所支持的请求方法
+
+ OPTIONS请求头部中会包含以下头部：
+
+Origin、
+
+Access-Control-Request-Method、
+
+Access-Control-Request-Headers，
+
+发送这个请求后，服务器可以设置如下头部与浏览器沟通来判断是否允许这个请求 
