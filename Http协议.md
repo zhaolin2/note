@@ -101,3 +101,11 @@ Access-Control-Request-Method、
 Access-Control-Request-Headers，
 
 发送这个请求后，服务器可以设置如下头部与浏览器沟通来判断是否允许这个请求 
+
+# URL
+
+URL=protocol+domain+port+URI+Paramters
+
+ RFC 1738(Uniform Resource Locators (URL))规定 URL 只能包含英文字母、阿拉伯数字和某些标点符号。这要求在 URL 中使用非英文字符的话必须编码后使用，不过 RFC 1738 并没有规定如何进行编码，而是交给应用程序（浏览器）自己决定。 
+
+ 用户从浏览器端发起一个 HTTP 请求，需要存在编码的地方是 **URL**、**Cookie**、**Parameter**。服务器端接受到 HTTP 请求后要解析 HTTP 协议，其中 URI、Cookie 和 POST 表单参数需要解码，服务器端可能还需要读取数据库中的数据，本地或网络中其它地方的文本文件，这些数据都可能存在编码问题，当 Servlet 处理完所有请求的数据后，需要将这些数据再编码通过 Socket 发送到用户请求的浏览器里，再经过浏览器解码成为文本。 
